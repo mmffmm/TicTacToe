@@ -27,21 +27,34 @@ class Move ():
    
         self.clicked+=1
 
+        game_over = self.rule._checkGameOver()
+        if game_over:
+            print('game_over')
+
         return self.gs
     
 class Rule() :
 
     def __init__(self, gs):
         self.gs = gs
-        self.gameover = False
     
     def _checkGameOver(self):
         #check for straight lines
-        #for horizontal, changes y only
+        #for horizontal and vertical
         for i in [0,1,2]:
             if self.gs.board[0][i] != "--" and self.gs.board[0][i] == self.gs.board[1][i] == self.gs.board[2][i]:
-                self.gameover = True
-                break
+                return True
+            if self.gs.board[i][0] != "--" and self.gs.board[i][0] == self.gs.board[i][1] == self.gs.board[i][2]:
+                return True
+            
+        if self.gs.board[0][0] != "--" and self.gs.board[0][0] == self.gs.board[1][1] == self.gs.board[2][2]:
+            return True
+        
+        if self.gs.board[2][0] != "--" and self.gs.board[2][0] == self.gs.board[1][1] == self.gs.board[0][2]:
+            return True
+        
+        return False
+
 
 
 
